@@ -34,7 +34,7 @@ public class NpC {
 
                 if (imageView.getLayoutX() >= xLimitation) {
                     System.out.println("Edge");
-                    imageView.setLayoutX((int) (((scene.getWidth() / 2) / dist) - 1) * dist);
+                    imageView.setLayoutX(xLimitation);
                 }
 
             } else if (event.getCode() == KeyCode.LEFT) {
@@ -45,8 +45,7 @@ public class NpC {
 
                 if (imageView.getLayoutX() <= -xLimitation) {
                     System.out.println("Edge");
-
-
+                    imageView.setLayoutX(-xLimitation);
                 }
             }
         });

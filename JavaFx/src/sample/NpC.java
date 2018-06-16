@@ -4,7 +4,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.Pane;
+import jdk.internal.org.objectweb.asm.tree.analysis.Frame;
 
 public class NpC {
     Image imageHolder;
@@ -28,27 +28,21 @@ public class NpC {
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.RIGHT) {
                 imageView.setLayoutX(imageView.getLayoutX() + dist);
-
-                System.out.println("moved Right");
-                System.out.println(imageView.getLayoutX());
-
                 if (imageView.getLayoutX() >= xLimitation) {
-                    System.out.println("Edge");
                     imageView.setLayoutX(xLimitation);
                 }
 
             } else if (event.getCode() == KeyCode.LEFT) {
                 imageView.setLayoutX(imageView.getLayoutX() - dist);
-
-                System.out.println("moved Left");
-                System.out.println(imageView.getLayoutX());
-
                 if (imageView.getLayoutX() <= -xLimitation) {
-                    System.out.println("Edge");
                     imageView.setLayoutX(-xLimitation);
                 }
             }
         });
+    }
+
+    public void npcMovement() {
+        imageView.setLayoutY(imageView.getLayoutY() - 20);
     }
 
 

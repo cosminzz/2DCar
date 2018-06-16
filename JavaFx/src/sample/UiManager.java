@@ -19,6 +19,7 @@ public class UiManager {
 
         layout.getChildren().add(player.imageView);
         player.playerMovement(scene,50);
+        player.npcMovement();
 
         primaryStage.setTitle("The Car Game");
         primaryStage.setScene(scene);

@@ -4,11 +4,11 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
-import jdk.internal.org.objectweb.asm.tree.analysis.Frame;
 
 public class NpC {
     Image imageHolder;
     ImageView imageView;
+    Spawns t1;
 
     public void theNpc(String charsImg, int imgHeight, int imgWidth, double defaultPosX, double defaultPosY) {
         this.imageHolder = new Image(charsImg);
@@ -32,6 +32,7 @@ public class NpC {
                     imageView.setLayoutX(xLimitation);
                 }
 
+
             } else if (event.getCode() == KeyCode.LEFT) {
                 imageView.setLayoutX(imageView.getLayoutX() - dist);
                 if (imageView.getLayoutX() <= -xLimitation) {
@@ -41,9 +42,8 @@ public class NpC {
         });
     }
 
-    public void npcMovement() {
-        imageView.setLayoutY(imageView.getLayoutY() - 20);
+    public void npcMovement(double speed, long delay) {
+        t1 = new Spawns(imageView, speed, delay);
+        t1.start();
     }
-
-
 }

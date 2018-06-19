@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
 
 public class Spawns extends Thread {
@@ -7,11 +8,15 @@ public class Spawns extends Thread {
     double speed;
     boolean isMoving = true;
     long delay;
+    Scene scene;
 
-    public Spawns(ImageView obj, double speed, long delay) {
+    UiManager testt = new UiManager();
+
+    public Spawns(ImageView obj, double speed, long delay, Scene scene) {
         this.obj = obj;
         this.speed = speed;
         this.delay = delay;
+        this.scene = scene;
     }
 
     @Override
@@ -23,9 +28,13 @@ public class Spawns extends Thread {
                 e.printStackTrace();
             }
             obj.setLayoutY(obj.getLayoutY() + speed);
-            System.out.println(obj.getLayoutY());
+            if (obj.getLayoutY() >= scene.getWidth() + 100) {
+                System.out.println(obj.getLayoutY());
+//                obj.setLayoutY(testt.test);
+            }
         }
     }
-
-
 }
+
+
+

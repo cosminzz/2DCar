@@ -42,8 +42,8 @@ public class NpC {
         });
     }
 
-    public void npcMovement(double speed, long delay) {
-        t1 = new Spawns(imageView, speed, delay);
+    public void npcMovement(double speed, long delay, Scene scene) {
+        t1 = new Spawns(imageView, speed, delay, scene);
         t1.start();
     }
 }

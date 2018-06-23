@@ -5,25 +5,26 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 
+import java.util.ArrayList;
+
 public class NpC {
     Image imageHolder;
     ImageView imageView;
     Spawns t1;
 
-    public void theNpc(String charsImg, int imgHeight, int imgWidth, double defaultPosX, double defaultPosY) {
-        this.imageHolder = new Image(charsImg);
-        this.imageView = new ImageView(imageHolder);
+    public void theNpc(String imageHolder, int imgHeight, int imgWidth, double defaultPosX, double defaultPosY) {
+        this.imageHolder = new Image(imageHolder);
+        this.imageView = new ImageView(this.imageHolder);
 
         imageView.setFitHeight(imgHeight);
         imageView.setFitWidth(imgWidth);
 
-        imageView.setX(defaultPosX);
-        imageView.setY(defaultPosY);
+        imageView.setLayoutX(defaultPosX);
+        imageView.setLayoutY(defaultPosY);
     }
 
     public void playerMovement(Scene scene, int dist) {
-
-        int xLimitation = ((int) ((scene.getWidth() / 2) / dist) - 1) * dist;
+        int xLimitation = (int) scene.getWidth() - (dist*2);
 
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.RIGHT) {
@@ -31,19 +32,17 @@ public class NpC {
                 if (imageView.getLayoutX() >= xLimitation) {
                     imageView.setLayoutX(xLimitation);
                 }
-
-
             } else if (event.getCode() == KeyCode.LEFT) {
                 imageView.setLayoutX(imageView.getLayoutX() - dist);
-                if (imageView.getLayoutX() <= -xLimitation) {
-                    imageView.setLayoutX(-xLimitation);
+                if (imageView.getLayoutX() <= -dist) {
+                    imageView.setLayoutX(0);
                 }
             }
         });
     }
 
-    public void npcMovement(double speed, long delay, Scene scene) {
-        t1 = new Spawns(imageView, speed, delay, scene);
+    public void npcMovement(double speed, long delay, Scene scene, ArrayList<Integer> randomPos) {
+        t1 = new Spawns(imageView, speed, delay, scene, randomPos);
         t1.start();
     }
 }

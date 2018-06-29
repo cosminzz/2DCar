@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,7 +11,8 @@ import java.util.ArrayList;
 public class NpC {
     Image imageHolder;
     ImageView imageView;
-    Spawns t1;
+    Thread thread;
+//    Spawns thread;
 
     public void theNpc(String imageHolder, int imgHeight, int imgWidth, double defaultPosX, double defaultPosY) {
         this.imageHolder = new Image(imageHolder);
@@ -21,6 +23,7 @@ public class NpC {
 
         imageView.setLayoutX(defaultPosX);
         imageView.setLayoutY(defaultPosY);
+        imageView.setScaleZ(0);
     }
 
     public void playerMovement(Scene scene, int dist) {
@@ -42,7 +45,15 @@ public class NpC {
     }
 
     public void npcMovement(double speed, long delay, Scene scene, ArrayList<Integer> randomPos) {
-        t1 = new Spawns(imageView, speed, delay, scene, randomPos);
-        t1.start();
+//        thread = new Spawns(imageView, speed, delay, scene, randomPos);
+//        thread.start();
+
+        Task test = new TEST(imageView, speed, delay, scene, randomPos);
+        thread = new Thread(test);
+        thread.setDaemon(true);
+        thread.start();
+
+//        IteratingTask task = new IteratingTask(8000000);
+//        System.out.println(task);
     }
 }

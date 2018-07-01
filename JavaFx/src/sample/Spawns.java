@@ -1,12 +1,15 @@
 package sample;
 
+import javafx.concurrent.Task;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Spawns extends Thread {
+// Create separate task for each object
+public class Spawns extends Task<Void> {
     ImageView obj;
     double speed;
     boolean isMoving = true;
@@ -14,33 +17,50 @@ public class Spawns extends Thread {
     Scene scene;
     ArrayList<Integer> randomPosition;
     Random random = new Random();
+    UiManager uiManager = new UiManager();
+    NpC player;
 
-    public Spawns(ImageView obj, double speed, long delay, Scene scene, ArrayList<Integer> randomPosition) {
+    public Spawns(ImageView obj, double speed, long delay, Scene scene, ArrayList<Integer> randomPosition, NpC player) {
         this.obj = obj;
         this.speed = speed;
         this.delay = delay;
         this.scene = scene;
+        this.player = player;
         this.randomPosition = randomPosition;
-        System.out.println(randomPosition);
     }
 
     @Override
-    public void run() {
+    protected Void call() {
         while (isMoving) {
-            try {
-                Thread.sleep(delay);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-                obj.setLayoutY(obj.getLayoutY() + speed);
+            objMovement();
+            getCollision();
+        }
+        return null;
+    }
+
+
+    private void objMovement() {
+        try {
+            Thread.sleep(delay);
+            double newPosition = obj.getLayoutY() + speed;
+//            System.out.println(Thread.currentThread().getName() + " move at position " + newPosition + "<<<<<<<<<<<");
+            obj.setLayoutY(newPosition);
 
             if (obj.getLayoutY() >= scene.getHeight() + 100) {
-                obj.setLayoutX((this.randomPosition.get(random.nextInt(this.randomPosition.size())))-obj.getFitWidth()/2);
-//                obj.setLayoutY(-this.randomPosition.get(random.nextInt(this.randomPosition.size())));
-                obj.setLayoutY(300);
-                System.out.println("NEW POS Y " + obj.getLayoutY());
-                System.out.println("NEW POS X " + obj.getLayoutX());
+                obj.setImage(new Image(uiManager.rndGfx()));
+                obj.setLayoutX((this.randomPosition.get(random.nextInt(this.randomPosition.size()))) - obj.getFitWidth() / 2);
+                obj.setLayoutY(-this.randomPosition.get(random.nextInt(this.randomPosition.size())));
+
             }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getCollision() {
+//        System.out.println(obj.getLayoutX());
+//        System.out.println(player.imageView.getLayoutBounds());
+        if ((obj.getBoundsInParent().intersects(player.imageView.getBoundsInParent()))){
         }
     }
 }

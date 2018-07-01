@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,8 +11,9 @@ import java.util.ArrayList;
 public class NpC {
     Image imageHolder;
     ImageView imageView;
-    Spawns t1;
+    Thread thread;
 
+    // Sets the default characteristics of the objects
     public void theNpc(String imageHolder, int imgHeight, int imgWidth, double defaultPosX, double defaultPosY) {
         this.imageHolder = new Image(imageHolder);
         this.imageView = new ImageView(this.imageHolder);
@@ -21,10 +23,11 @@ public class NpC {
 
         imageView.setLayoutX(defaultPosX);
         imageView.setLayoutY(defaultPosY);
+        imageView.setScaleZ(0);
     }
 
     public void playerMovement(Scene scene, int dist) {
-        int xLimitation = (int) scene.getWidth() - (dist*2);
+        int xLimitation = (int) scene.getWidth() - (dist * 2);
 
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.RIGHT) {
@@ -41,8 +44,11 @@ public class NpC {
         });
     }
 
-    public void npcMovement(double speed, long delay, Scene scene, ArrayList<Integer> randomPos) {
-        t1 = new Spawns(imageView, speed, delay, scene, randomPos);
-        t1.start();
+    // Add the movement functionality to each object on a different thread
+    public void npcMovement(double speed, long delay, Scene scene, ArrayList<Integer> randomPos, NpC player) {
+        Task<Void> newTask = new Spawns(imageView, speed, delay, scene, randomPos, player);
+        thread = new Thread(newTask);
+        thread.setDaemon(true);
+        thread.start();
     }
 }

@@ -2,6 +2,7 @@ package sample;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -13,10 +14,7 @@ public class UiManager {
 
     //Character objects
     NpC player;
-    NpC spawnObj1;
-    NpC spawnObj2;
-    NpC spawnObj3;
-    NpC spawnObj4;
+    NpC spawnObj1, spawnObj2, spawnObj3, spawnObj4;
 
     //Scene sizes
     int sceneWidth = 500;
@@ -25,10 +23,11 @@ public class UiManager {
     //Character movement
     int dist = 50;
     double speed = 10;
-    long delay = 50;
+    long delay = 40;
 
     Random random = new Random();
     ArrayList<Integer> npcYPositionHolder;
+    String[] randomObjGfxPaths = {"sample/coin.png","sample/mine.png"};
 
     public void display(Stage primaryStage) {
         layout = new Group();
@@ -41,26 +40,26 @@ public class UiManager {
 
         // Characters initial object setup
         player.theNpc("sample/car.png", 100, 100, scene.getWidth() / 2 - dist, scene.getHeight() - 110);
-        spawnObj1.theNpc("sample/coin.png", 50, 50, npcSpawnPos(), 200);
-        spawnObj2.theNpc("sample/coin.png", 50, 50, npcSpawnPos(), 200);
-        spawnObj3.theNpc("sample/coin.png", 50, 50, npcSpawnPos(), 200);
-        spawnObj4.theNpc("sample/coin.png", 50, 50, npcSpawnPos(), 200);//-npcYPositionHolder.get(random.nextInt(npcYPositionHolder.size()))
+        spawnObj1.theNpc(rndGfx(), 50, 50, npcSpawnPos(), -npcYPositionHolder.get(random.nextInt(npcYPositionHolder.size())));
+//        spawnObj2.theNpc(rndGfx(), 50, 50, npcSpawnPos(), -npcYPositionHolder.get(random.nextInt(npcYPositionHolder.size())));
+//        spawnObj3.theNpc(rndGfx(), 50, 50, npcSpawnPos(), -npcYPositionHolder.get(random.nextInt(npcYPositionHolder.size())));
+//        spawnObj4.theNpc(rndGfx(), 50, 50, npcSpawnPos(), -npcYPositionHolder.get(random.nextInt(npcYPositionHolder.size())));
 
         // Add characters to the layout
         layout.getChildren().add(spawnObj1.imageView);
-        layout.getChildren().add(spawnObj2.imageView);
-        layout.getChildren().add(spawnObj3.imageView);
-        layout.getChildren().add(spawnObj4.imageView);
+//        layout.getChildren().add(spawnObj2.imageView);
+//        layout.getChildren().add(spawnObj3.imageView);
+//        layout.getChildren().add(spawnObj4.imageView);
         layout.getChildren().add(player.imageView);
 
         // Initialize player controller
         player.playerMovement(scene, dist);
 
         // Initialize spawned object movement
-        spawnObj1.npcMovement(speed, delay, scene, npcYPositionHolder);
-        spawnObj2.npcMovement(speed, delay, scene, npcYPositionHolder);
-        spawnObj3.npcMovement(speed, delay, scene, npcYPositionHolder);
-        spawnObj4.npcMovement(speed, delay, scene, npcYPositionHolder);
+        spawnObj1.npcMovement(speed, delay, scene, npcYPositionHolder,player);
+//        spawnObj2.npcMovement(speed, delay, scene, npcYPositionHolder,player);
+//        spawnObj3.npcMovement(speed, delay, scene, npcYPositionHolder,player);
+//        spawnObj4.npcMovement(speed, delay, scene, npcYPositionHolder,player);
 
         //Set the main stage where the scene>layouts>characters are added
         primaryStage.setTitle("The Car Game");
@@ -69,12 +68,12 @@ public class UiManager {
         primaryStage.show();
     }
 
-    public int npcSpawnPos() {
+    private int npcSpawnPos() {
         //Sets the npc spawn positions Y
         int additive = dist;
         int increment = 0;
         //Sets the length of the list containing coordinates
-        int maxListLocations = ((int) (scene.getWidth() / dist)-2);
+        int maxListLocations = ((int) (scene.getWidth() / dist) - 2);
         ArrayList<Integer> npcPositionHolder = new ArrayList<>(maxListLocations);
 
         for (int i = 0; i < maxListLocations; i++) {
@@ -86,5 +85,11 @@ public class UiManager {
         // Saves the reference of the values that are sent to the NPC
         this.npcYPositionHolder = npcPositionHolder;
         return randomPosY;
+    }
+
+    // Returns random object graphics
+    public String rndGfx(){
+        int getGfx = random.nextInt(randomObjGfxPaths.length);
+        return randomObjGfxPaths[getGfx];
     }
 }

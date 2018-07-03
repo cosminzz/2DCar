@@ -2,7 +2,6 @@ package sample;
 
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
-import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,6 +22,7 @@ public class Spawns {
     String stringImage;
     NpC player;
     TranslateTransition transition = new TranslateTransition();
+    boolean collided = false;
 
     public Spawns(ImageView obj, double speed, long delay, Scene scene, ArrayList<Integer> randomPosition, NpC player, String defaultStringImage) {
         this.obj = obj;
@@ -38,13 +38,11 @@ public class Spawns {
     public void objMovement() {
         // Set the direction the object is heading
         double randomYDirection = random.nextInt(500) + scene.getHeight() - obj.getLayoutY();
-        transition.setDuration(Duration.seconds(random.nextInt(10) + 1));
+        transition.setDuration(Duration.seconds(random.nextInt((5 - 3) + 1) + 5));
         transition.setToY(randomYDirection);
         transition.setNode(obj);
 
         transition.setOnFinished(event -> {
-            System.out.println("End of the line!! ");
-
             //Reset GFX
             String stringImage = uiManager.rndGfx();
             this.stringImage = stringImage;
@@ -57,6 +55,7 @@ public class Spawns {
 
             // Recursive!
             objMovement();
+            this.collided = false;
         });
         transition.play();
     }
@@ -71,12 +70,14 @@ public class Spawns {
         animationTimer.start();
     }
 
-    private void getCollision () {
-        if ((obj.getBoundsInParent().intersects(player.imageView.getBoundsInParent()))) {
+    private void getCollision() {
+        if ((obj.getBoundsInParent().intersects(player.imageView.getBoundsInParent())) && (this.collided == false)) {
             if (stringImage.equals("sample/coin.png")) {
                 System.out.println(stringImage);
+                this.collided = true;
             } else if (stringImage.equals("sample/mine.png")) {
                 System.out.println(stringImage);
+                this.collided = true;
             }
         }
     }

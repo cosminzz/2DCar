@@ -2,7 +2,6 @@ package sample;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class UiManager {
 
     Random random = new Random();
     ArrayList<Integer> npcYPositionHolder;
-    String[] randomObjGfxPaths = {"sample/coin.png","sample/mine.png"};
+    String[] randomObjGfxPaths = {"sample/coin.png", "sample/mine.png"};
 
     public void display(Stage primaryStage) {
         layout = new Group();
@@ -37,34 +36,36 @@ public class UiManager {
         spawnObj2 = new NpC();
         spawnObj3 = new NpC();
         spawnObj4 = new NpC();
+        String defaultStringImage = rndGfx();
 
         // Characters initial object setup
         player.theNpc("sample/car.png", 100, 100, scene.getWidth() / 2 - dist, scene.getHeight() - 110);
-        spawnObj1.theNpc(rndGfx(), 50, 50, npcSpawnPos(), -npcYPositionHolder.get(random.nextInt(npcYPositionHolder.size())));
-//        spawnObj2.theNpc(rndGfx(), 50, 50, npcSpawnPos(), -npcYPositionHolder.get(random.nextInt(npcYPositionHolder.size())));
-//        spawnObj3.theNpc(rndGfx(), 50, 50, npcSpawnPos(), -npcYPositionHolder.get(random.nextInt(npcYPositionHolder.size())));
-//        spawnObj4.theNpc(rndGfx(), 50, 50, npcSpawnPos(), -npcYPositionHolder.get(random.nextInt(npcYPositionHolder.size())));
+        spawnObj1.theNpc(defaultStringImage, 50, 50, npcSpawnPos(), -npcYPositionHolder.get(random.nextInt(npcYPositionHolder.size())));
+        spawnObj2.theNpc(defaultStringImage, 50, 50, npcSpawnPos(), -npcYPositionHolder.get(random.nextInt(npcYPositionHolder.size())));
+        spawnObj3.theNpc(defaultStringImage, 50, 50, npcSpawnPos(), -npcYPositionHolder.get(random.nextInt(npcYPositionHolder.size())));
+        spawnObj4.theNpc(defaultStringImage, 50, 50, npcSpawnPos(), -npcYPositionHolder.get(random.nextInt(npcYPositionHolder.size())));
 
         // Add characters to the layout
         layout.getChildren().add(spawnObj1.imageView);
-//        layout.getChildren().add(spawnObj2.imageView);
-//        layout.getChildren().add(spawnObj3.imageView);
-//        layout.getChildren().add(spawnObj4.imageView);
+        layout.getChildren().add(spawnObj2.imageView);
+        layout.getChildren().add(spawnObj3.imageView);
+        layout.getChildren().add(spawnObj4.imageView);
         layout.getChildren().add(player.imageView);
 
         // Initialize player controller
         player.playerMovement(scene, dist);
 
         // Initialize spawned object movement
-        spawnObj1.npcMovement(speed, delay, scene, npcYPositionHolder,player);
-//        spawnObj2.npcMovement(speed, delay, scene, npcYPositionHolder,player);
-//        spawnObj3.npcMovement(speed, delay, scene, npcYPositionHolder,player);
-//        spawnObj4.npcMovement(speed, delay, scene, npcYPositionHolder,player);
+        spawnObj1.npcMovement(speed, delay, scene, npcYPositionHolder, player, defaultStringImage);
+        spawnObj2.npcMovement(speed, delay, scene, npcYPositionHolder,player,defaultStringImage);
+        spawnObj3.npcMovement(speed, delay, scene, npcYPositionHolder,player,defaultStringImage);
+        spawnObj4.npcMovement(speed, delay, scene, npcYPositionHolder,player,defaultStringImage);
 
         //Set the main stage where the scene>layouts>characters are added
         primaryStage.setTitle("The Car Game");
         primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
+        primaryStage.setResizable(true);
+//        primaryStage.setMaximized(true);
         primaryStage.show();
     }
 
@@ -88,7 +89,7 @@ public class UiManager {
     }
 
     // Returns random object graphics
-    public String rndGfx(){
+    public String rndGfx() {
         int getGfx = random.nextInt(randomObjGfxPaths.length);
         return randomObjGfxPaths[getGfx];
     }

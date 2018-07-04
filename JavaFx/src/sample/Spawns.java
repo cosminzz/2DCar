@@ -24,6 +24,8 @@ public class Spawns {
     TranslateTransition transition = new TranslateTransition();
     boolean collided = false;
 
+    Stats stats = new Stats();
+
     public Spawns(ImageView obj, double speed, long delay, Scene scene, ArrayList<Integer> randomPosition, NpC player, String defaultStringImage) {
         this.obj = obj;
         this.speed = speed;
@@ -53,6 +55,9 @@ public class Spawns {
             obj.setLayoutX((this.randomPosition.get(random.nextInt(this.randomPosition.size()))) - obj.getFitWidth() / 2);
             obj.setLayoutY((-this.randomPosition.get(random.nextInt(this.randomPosition.size()))) - randomYDirection);
 
+            if(!obj.isVisible())
+                obj.setVisible(true);
+
             // Recursive!
             objMovement();
             this.collided = false;
@@ -73,13 +78,21 @@ public class Spawns {
     private void getCollision() {
         if ((obj.getBoundsInParent().intersects(player.imageView.getBoundsInParent())) && (this.collided == false)) {
             if (stringImage.equals("sample/coin.png")) {
-                System.out.println(stringImage);
                 this.collided = true;
+                stats.setScore(stats.getScore()+10);
+                uiManager.scoreTxt.setText(String.valueOf(stats.getScore()));
+                obj.setVisible(false);
             } else if (stringImage.equals("sample/mine.png")) {
-                System.out.println(stringImage);
                 this.collided = true;
+                stats.setPlayerMaxHp(stats.getPlayerMaxHp()-1);
+                uiManager.playerMaxHpTxt.setText(String.valueOf(stats.getPlayerMaxHp()));
+                obj.setVisible(false);
             }
         }
+    }
+
+    public void backgroundMovement(){
+
     }
 }
 

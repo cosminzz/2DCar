@@ -15,6 +15,7 @@ public class UiManager {
     static Text scoreTxt;
     static Text playerMaxHpTxt;
     static Text gameOverTxt;
+    static Text getDbScoreTxt;
     static Button restart;
     static Button reset;
     Group layout;
@@ -43,6 +44,7 @@ public class UiManager {
         scoreTxt = new Text("0");
         playerMaxHpTxt = new Text("0");
         gameOverTxt = new Text("Game Over");
+        getDbScoreTxt = new Text("Null");
         restart = new Button();
         reset = new Button();
 
@@ -76,6 +78,7 @@ public class UiManager {
         layout.getChildren().addAll(scoreTxt, playerMaxHpTxt);
         // Ui elements to layout
         layout.getChildren().add(gameOverTxt);
+        layout.getChildren().add(getDbScoreTxt);
         layout.getChildren().add(restart);
         layout.getChildren().add(reset);
 

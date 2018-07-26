@@ -36,7 +36,7 @@ public class UiManager {
     long delay = 0;
     Random random = new Random();
     ArrayList<Integer> npcYPositionHolder;
-    String[] randomObjGfxPaths = {"sample/coin.png", "sample/mine.png"};
+    String[] randomObjGfxPaths = {"sample/coin.png", "sample/mine.png", "sample/coin.png", "sample/mine.png", "sample/coin.png", "sample/mine.png", "sample/coin.png", "sample/mine.png", "sample/hp.png"};
 
     public void display(Stage primaryStage) {
         layout = new Group();
@@ -98,8 +98,8 @@ public class UiManager {
 
         // Initialize background objects movement
         background1.bckMovement(speed, scene, 0);
-        background2.bckMovement(speed, scene, -499);
-        background3.bckMovement(speed, scene, -999);
+        background2.bckMovement(speed, scene, -495);
+        background3.bckMovement(speed, scene, -1000);
 
         //Set the score/hp texts position
         setText(scoreTxt, 30, 10, scene.getHeight() - (scene.getHeight() - 50), Color.YELLOW);

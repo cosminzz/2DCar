@@ -70,7 +70,7 @@ public class Spawns {
     public void objMovement() {
         // Set the direction the object is heading
         double randomYDirection = random.nextInt(500) + scene.getHeight() - obj.getLayoutY();
-        transition.setDuration(Duration.seconds((random.nextInt((5 - 3) + 1) + 5) * speed));
+        transition.setDuration(Duration.seconds((random.nextInt((5 - 4) + 1) + 3) * speed));
         transition.setToY(randomYDirection);
         transition.setNode(obj);
 
@@ -156,12 +156,17 @@ public class Spawns {
                         }
                     });
                 }
+            } else if (stringImage.equals("sample/hp.png")) {
+                this.collided = true;
+                stats.setPlayerMaxHp(stats.getPlayerMaxHp() + 1);
+                uiManager.playerMaxHpTxt.setText(String.valueOf(stats.getPlayerMaxHp()));
+                obj.setVisible(false);
             }
         }
     }
 
     public void backgroundMovement() {
-        transition.setDuration(Duration.seconds(5));
+        transition.setDuration(Duration.seconds(3));
         transition.setToY(1000);
         transition.setNode(obj);
         transition.setCycleCount(Animation.INDEFINITE);
@@ -186,13 +191,16 @@ public class Spawns {
         stats.setScore(0);
         uiManager.scoreTxt.setText(String.valueOf(stats.getScore()));
 
-        scoreHolder.clear();
         uiManager.getDbScoreTxt.setVisible(false);
     }
 
     public void getTopScores() {
         try {
             int row = 1;
+            // Reset score displays
+            scoreHolder.clear();
+            scoreConverter.setLength(0);
+
             resultSet = Spawns.statement.executeQuery("SELECT * from scores ORDER BY scores desc limit 9");
 
             while (resultSet.next()) {

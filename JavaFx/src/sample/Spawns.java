@@ -43,6 +43,7 @@ public class Spawns {
     ArrayList<String> scoreHolder = new ArrayList<>();
     StringBuilder scoreConverter = new StringBuilder();
 
+    AudioManager audioManager = new AudioManager();
 
     public Spawns() {
     }
@@ -109,18 +110,24 @@ public class Spawns {
         if ((obj.getBoundsInParent().intersects(player.imageView.getBoundsInParent())) && (this.collided == false)) {
             if (stringImage.equals("sample/coin.png")) {
                 this.collided = true;
+                audioManager.playSound(false,"D:\\CursJava\\FinalProject\\2DCar\\JavaFx\\src\\sample\\coin.wav",0);
+
                 stats.setScore(stats.getScore() + 10);
                 uiManager.scoreTxt.setText(String.valueOf(stats.getScore()));
                 obj.setVisible(false);
 
             } else if (stringImage.equals("sample/mine.png")) {
                 this.collided = true;
+                audioManager.playSound(false,"D:\\CursJava\\FinalProject\\2DCar\\JavaFx\\src\\sample\\enemy.wav",0);
+
                 stats.setPlayerMaxHp(stats.getPlayerMaxHp() - 1);
                 uiManager.playerMaxHpTxt.setText(String.valueOf(stats.getPlayerMaxHp()));
                 obj.setVisible(false);
 
                 if (stats.getPlayerMaxHp() <= 0) {
                     try {
+                        audioManager.playSound(false,"D:\\CursJava\\FinalProject\\2DCar\\JavaFx\\src\\sample\\finish.wav",0);
+
                         if (stats.getScore() != 0)
                             stats.insertIntoDB(statement, "INSERT INTO scores (scores) VALUES " + "(" + stats.getScore() + ")");
                     } catch (SQLException e) {
@@ -142,12 +149,14 @@ public class Spawns {
                     // Restart positions on button press
                     uiManager.restart.setOnAction(event -> {
                         System.out.println("Button Restart Pressed");
+                        audioManager.playSound(false,"D:\\CursJava\\FinalProject\\2DCar\\JavaFx\\src\\sample\\button.wav",0);
                         defaultPositions();
                     });
 
                     // Delete DB entries on button press
                     uiManager.reset.setOnAction(event -> {
                         System.out.println("Reset Button Pressed");
+                        audioManager.playSound(false,"D:\\CursJava\\FinalProject\\2DCar\\JavaFx\\src\\sample\\button.wav",0);
                         try {
                             stats.clearDB(statement);
                             defaultPositions();
@@ -158,6 +167,8 @@ public class Spawns {
                 }
             } else if (stringImage.equals("sample/hp.png")) {
                 this.collided = true;
+                audioManager.playSound(false,"D:\\CursJava\\FinalProject\\2DCar\\JavaFx\\src\\sample\\health.wav",0);
+
                 stats.setPlayerMaxHp(stats.getPlayerMaxHp() + 1);
                 uiManager.playerMaxHpTxt.setText(String.valueOf(stats.getPlayerMaxHp()));
                 obj.setVisible(false);

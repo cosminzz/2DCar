@@ -36,7 +36,7 @@ public class UiManager {
     long delay = 0;
     Random random = new Random();
     ArrayList<Integer> npcYPositionHolder;
-    String[] randomObjGfxPaths = {"sample/coin.png", "sample/mine.png", "sample/coin.png", "sample/mine.png", "sample/coin.png", "sample/mine.png", "sample/coin.png", "sample/mine.png", "sample/hp.png"};
+    String[] randomObjGfxPaths = {"sample/coin.png", "sample/mine.png", "sample/coin.png", "sample/mine.png", "sample/coin.png", "sample/mine.png", "sample/coin.png", "sample/mine.png", "sample/coin.png", "sample/mine.png", "sample/coin.png", "sample/mine.png","sample/hp.png"};
 
     public void display(Stage primaryStage) {
         layout = new Group();
@@ -56,6 +56,7 @@ public class UiManager {
         background1 = new NpC();
         background2 = new NpC();
         background3 = new NpC();
+
         String defaultStringImage = rndGfx();
 
         // Instantiated objects initial object setup

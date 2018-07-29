@@ -13,6 +13,7 @@ public class Main extends Application {
     Stage stage = new Stage();
     static Statement statement;
     Spawns spawns = new Spawns();
+    AudioManager audioManager = new AudioManager();
 
     public static void main(String[] args) {
         launch(args);
@@ -21,8 +22,11 @@ public class Main extends Application {
     @Override
     public void start(Stage window) {
         mainLayout.display(stage);
+
         connectToDb();
         spawns.statement=this.statement;
+
+        audioManager.playSound(true,"D:\\CursJava\\FinalProject\\2DCar\\JavaFx\\src\\sample\\music.wav",-10f);
     }
 
     public void connectToDb() {
